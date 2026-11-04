@@ -561,3 +561,65 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--green); outline
   .contact-card { transition: none; }
   .contact-card:hover { transform: none; }
 }
+
+.challenge { padding-block: 100px 112px; }
+.challenge-heading { display: flex; justify-content: space-between; align-items: end; gap: 30px; margin-bottom: 34px; }
+.challenge-heading h2 { margin: 24px 0 12px; font-size: clamp(38px, 4.4vw, 58px); line-height: 1.04; font-weight: 600; }
+.challenge-heading h2 em { color: var(--green); font-family: var(--serif); font-weight: 400; }
+.challenge-intro { max-width: 500px; margin: 0; color: #aeb9c8; font-size: 13px; line-height: 1.8; }
+.challenge-score { min-width: 112px; display: grid; justify-items: end; gap: 5px; padding: 11px 14px; border: 1px solid #334056; border-right: 3px solid var(--green); background: #111a29; }
+.challenge-score strong { color: var(--green); font: 24px var(--mono); }
+.challenge-score span { color: #9aa8bb; font: 8px var(--mono); }
+.challenge-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(300px, .85fr); gap: 14px; align-items: stretch; }
+.quiz-panel, .achievement-panel { min-width: 0; border: 1px solid #2a384e; background: #111a29; }
+.quiz-panel { padding: 21px; border-top: 3px solid var(--race-red); }
+.quiz-top { display: flex; justify-content: space-between; gap: 12px; color: #9aa8bb; font: 9px var(--mono); }
+.quiz-reward { color: var(--green); }
+.quiz-question { min-height: 50px; margin: 24px 0 18px; color: #edf1f6; font-size: 18px; line-height: 1.45; }
+.quiz-options { display: grid; gap: 8px; }
+.quiz-option { min-height: 42px; padding: 9px 12px; border: 1px solid #34445b; border-radius: 2px; background: #152135; color: #c5d0df; font: 11px var(--sans); text-align: left; cursor: pointer; transition: background 160ms ease, border-color 160ms ease, color 160ms ease; }
+.quiz-option:hover:not(:disabled) { border-color: #8393a9; color: #fff; }
+.quiz-option[aria-pressed="true"] { border-color: var(--green); background: rgba(245, 200, 66, .1); color: var(--green); }
+.quiz-option:disabled { cursor: default; }
+.has-correct-answer .quiz-option[aria-pressed="true"] { border-color: var(--green); background: rgba(245, 200, 66, .14); }
+.quiz-controls { min-height: 46px; display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-top: 17px; }
+.quiz-feedback { margin: 0; color: #9eacbf; font-size: 10px; line-height: 1.5; }
+.has-error .quiz-feedback { color: #ff858d; }
+.has-correct-answer .quiz-feedback { color: var(--green); }
+.quiz-submit { min-height: 38px; flex: 0 0 auto; padding: 0 12px; border: 1px solid var(--green); border-radius: 2px; background: var(--green); color: #111827; font: 9px var(--mono); cursor: pointer; transition: background 160ms ease, opacity 160ms ease; }
+.quiz-submit:hover:not(:disabled) { background: #ffda61; }
+.quiz-submit:disabled { opacity: .44; cursor: default; }
+.quiz-submit[hidden], .quiz-option[hidden] { display: none; }
+.achievement-panel { padding: 18px; }
+.achievement-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 13px; }
+.achievement-heading .eyebrow { font-size: 8px; }
+.achievement-heading h3 { margin: 0; color: #e7ecf2; font-size: 14px; }
+.achievement-card { display: grid; grid-template-columns: 35px minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 73px; padding: 10px 0; border-top: 1px solid #29364a; }
+.achievement-mark { width: 29px; height: 29px; display: grid; place-items: center; border: 1px solid #465770; color: #8493a8; font: 9px var(--mono); }
+.achievement-card h4 { margin: 0 0 4px; color: #bec9d7; font-size: 11px; }
+.achievement-card p { margin: 0; color: #8796aa; font-size: 9px; line-height: 1.5; }
+.achievement-state { color: #75849a; font: 7px var(--mono); }
+.achievement-card.is-unlocked .achievement-mark { border-color: var(--green); color: var(--green); box-shadow: inset 0 0 12px rgba(245, 200, 66, .1); }
+.achievement-card.is-unlocked h4, .achievement-card.is-unlocked .achievement-state { color: var(--green); }
+button:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+
+@media (max-width: 800px) {
+  .challenge { padding-block: 78px 88px; }
+  .challenge-grid { grid-template-columns: 1fr; }
+  .achievement-panel { max-width: none; }
+}
+@media (max-width: 480px) {
+  .challenge { padding-block: 70px 78px; }
+  .challenge-heading { align-items: start; flex-direction: column; gap: 18px; }
+  .challenge-heading h2 { font-size: 41px; }
+  .challenge-intro { font-size: 12px; }
+  .challenge-score { min-width: 102px; justify-items: start; }
+  .quiz-panel, .achievement-panel { padding: 15px; }
+  .quiz-question { font-size: 16px; }
+  .quiz-controls { align-items: stretch; flex-direction: column; }
+  .quiz-submit { align-self: flex-start; }
+  .achievement-card { grid-template-columns: 30px minmax(0, 1fr) auto; gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .quiz-option, .quiz-submit { transition: none; }
+}
