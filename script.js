@@ -314,3 +314,57 @@ if (neuralCanvas && canvasContext) {
 	resizeNetwork();
 }
 
+const transitionStorageKey = "umid-portfolio-page-transition";
+
+document.addEventListener("click", (event) => {
+	if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+	if (!(event.target instanceof Element)) return;
+	const navigationLink = event.target.closest("a[href]");
+	if (!navigationLink || navigationLink.target || navigationLink.hasAttribute("download")) return;
+	const destination = new URL(navigationLink.href, window.location.href);
+	if (destination.protocol !== window.location.protocol || destination.origin !== window.location.origin) return;
+	if (destination.pathname === window.location.pathname) return;
+	if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+	try {
+		sessionStorage.setItem(transitionStorageKey, "pending");
+	} catch {
+		// Page navigation still works when session storage is unavailable.
+	}
+});
+
+let shouldPlayPageTransition = false;
+
+try {
+	shouldPlayPageTransition = sessionStorage.getItem(transitionStorageKey) === "pending";
+	sessionStorage.removeItem(transitionStorageKey);
+} catch {
+	// Skip the animation when session storage is unavailable.
+}
+
+if (shouldPlayPageTransition && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+	const pageTransition = document.createElement("div");
+	pageTransition.className = "race-transition";
+	pageTransition.setAttribute("aria-hidden", "true");
+	pageTransition.innerHTML = `
+		<div class="race-transition__track"></div>
+		<div class="race-transition__streak race-transition__streak--one"></div>
+		<div class="race-transition__streak race-transition__streak--two"></div>
+		<div class="race-transition__car">
+			<span class="race-car__rear-wing"></span>
+			<span class="race-car__wheel race-car__wheel--rear"></span>
+			<span class="race-car__wheel race-car__wheel--front"></span>
+			<span class="race-car__body"></span>
+			<span class="race-car__cockpit"></span>
+			<span class="race-car__halo"></span>
+			<span class="race-car__front-wing"></span>
+		</div>
+	`;
+	document.body.append(pageTransition);
+	requestAnimationFrame(() => pageTransition.classList.add("is-running"));
+	pageTransition.addEventListener("animationend", (event) => {
+		if (event.target === pageTransition) pageTransition.remove();
+	});
+	window.setTimeout(() => pageTransition.remove(), 1800);
+}
+
